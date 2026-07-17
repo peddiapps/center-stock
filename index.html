@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Center Stock</title>
+  <style>
+    :root { --navy:#102a43; --navy2:#163b60; --gray:#e7ebef; --line:#c5ced7; --ink:#243746; --white:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:Segoe UI,Arial,sans-serif; color:var(--ink); background:#f4f6f8; }
+    header { height:68px; display:flex; align-items:center; gap:14px; padding:0 24px; color:white; background:var(--navy); box-shadow:0 2px 8px #0003; }
+    .logo { width:38px; height:38px; display:grid; place-items:center; border:2px solid #8fb3d1; border-radius:8px; font-weight:800; }
+    h1 { margin:0; font-size:24px; letter-spacing:.4px; }
+    .app { display:grid; grid-template-columns:260px 1fr; min-height:calc(100vh - 68px); }
+    aside { padding:22px 18px; background:var(--gray); border-right:1px solid var(--line); }
+    aside h2 { margin:0 0 6px; color:var(--navy); font-size:17px; }
+    aside p { margin:0 0 18px; color:#627381; font-size:13px; line-height:1.45; }
+    button { width:100%; border:0; border-radius:8px; padding:12px 15px; font-weight:700; font-size:14px; cursor:pointer; color:white; background:var(--navy2); }
+    button:hover { background:#1c4d7d; }
+    main { padding:24px; }
+    .workspace-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+    .workspace-head h2 { margin:0; font-size:20px; color:var(--navy); }
+    #count { color:#687985; font-size:13px; }
+    #workspace { min-height:calc(100vh - 145px); padding:18px; display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); align-content:start; gap:16px; border:2px dashed var(--line); border-radius:12px; background:white; }
+    .empty { grid-column:1/-1; align-self:center; text-align:center; color:#7a8994; }
+    .rack { min-height:150px; border:1px solid #9cabb7; border-radius:9px; overflow:hidden; background:#f8fafb; box-shadow:0 3px 8px #102a4315; }
+    .rack-title { padding:10px 12px; color:white; background:var(--navy2); font-weight:700; }
+    .shelves { padding:12px; display:grid; gap:10px; }
+    .shelf { height:22px; border:1px solid #aab6c0; border-top:5px solid #7d8b96; background:#e8edf1; }
+    @media (max-width:700px) { .app{grid-template-columns:1fr} aside{border-right:0;border-bottom:1px solid var(--line)} #workspace{min-height:420px} }
+  </style>
+</head>
+<body>
+  <header><div class="logo">CS</div><h1>Center Stock</h1></header>
+  <div class="app">
+    <aside>
+      <h2>Rack Controls</h2>
+      <p>Add racks to begin building your center-stock layout.</p>
+      <button id="addRack" type="button">+ Add Rack</button>
+    </aside>
+    <main>
+      <div class="workspace-head"><h2>Racking Workspace</h2><span id="count">0 racks</span></div>
+      <section id="workspace"><div class="empty">Your workspace is empty.<br>Select <strong>Add Rack</strong> to begin.</div></section>
+    </main>
+  </div>
+  <script>
+    let rackCount = 0;
+    const workspace = document.querySelector('#workspace');
+    const count = document.querySelector('#count');
+    document.querySelector('#addRack').addEventListener('click', () => {
+      rackCount += 1;
+      workspace.querySelector('.empty')?.remove();
+      const rack = document.createElement('article');
+      rack.className = 'rack';
+      rack.innerHTML = `<div class="rack-title">Rack ${rackCount}</div><div class="shelves"><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div></div>`;
+      workspace.appendChild(rack);
+      count.textContent = `${rackCount} ${rackCount === 1 ? 'rack' : 'racks'}`;
+    });
+  </script>
+</body>
+</html>
